@@ -1,0 +1,109 @@
+Aqui está tudo **organizado, limpo e pronto para copiar/colar**, na ordem correta 👇
+
+---
+
+# 🧩 1. Criar Banco de Dados (MySQL)
+
+```sql
+CREATE DATABASE gestao_chamados;
+```
+
+---
+
+# 💻 2. Terminal (PowerShell) – Dentro da pasta do projeto
+
+## 🔹 A. Criar e ativar ambiente virtual
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+👉 Se der erro de permissão:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+```
+
+---
+
+## 🔹 B. Instalar dependências
+
+```powershell
+pip install flask flask-sqlalchemy flask-login flask-bcrypt flask-cors pymysql cryptography python-dotenv pytz
+```
+
+---
+
+## 🔹 C. Configurar arquivo `.env`
+
+Crie ou edite o arquivo `.env` na raiz do projeto:
+
+```env
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=Root1234@
+MYSQL_DB=gestao_chamados
+SECRET_KEY=Root1234@
+VALID_USERNAME=adm
+VALID_PASSWORD=123
+```
+
+---
+
+## 🔹 D. Criar tabelas e usuário admin
+
+```powershell
+python reset_admin.py
+```
+
+---
+
+## 🚀 E. Rodar o servidor (FINAL)
+
+```powershell
+python run.py
+```
+
+---
+
+# ✅ Como saber se deu certo?
+
+Você verá no terminal:
+
+```
+🚀 Servidor SI iniciado com sucesso!
+📍 Local: http://localhost:5000
+```
+
+---
+
+# 🌐 Acessar o sistema
+
+Abra o navegador e entre em:
+
+```
+http://localhost:5000
+```
+
+Login:
+
+* 👤 Usuário: `adm`
+* 🔒 Senha: `123`
+
+---
+
+# 🔁 Uso no dia a dia
+
+Sempre que ligar o computador:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+python run.py
+```
+
+👉 Ou use seu `.bat` (mais rápido 🚀)
+
+---
+
+Se quiser, posso te montar um `.bat` perfeito (com verificação automática e tudo) pra rodar com duplo clique.
