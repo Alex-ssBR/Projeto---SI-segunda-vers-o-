@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Casos - SI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/logo_santaisabel.png') }}" alt="Logo" style="width: 40px; height: 40px;">
+            <h1>Controle de Casos - SI</h1>
+        </div>
+
+        <div class="nav-right">
+            <button id="btnIrParaAdmin" class="btn btn-search btn-admin-nav" style="display:none; background: #0f172a;" onclick="window.location.href='/admin'">
+                <i class="fas fa-user-shield"></i> <span class="btn-text">Painel Admin</span>
+            </button>
+
+            <div class="user-display">
+                <i class="fas fa-user-circle"></i> 
+                <span id="sessaoUsuario">...</span>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="campoBusca" placeholder="Patrimônio..." />
+                <button class="btn btn-search" id="btnBuscar"><i class="fas fa-search"></i></button>
+            </div>
+
+            <button class="btn btn-create" onclick="abrirModalCriar()">
+                <i class="fas fa-plus"></i> <span class="btn-text">Abrir Chamado</span>
+            </button>
+
+            <button class="btn btn-logout" id="btnSair">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <aside class="janela-lateral">
+        <h3><i class="fas fa-bullhorn"></i> Mural de Avisos</h3>
+        <div id="avisos-container" class="avisos-container"></div>
+        <div class="chat-input-area" style="display:flex; gap:5px; margin-top: 10px;">
+            <input type="text" id="campoAviso" placeholder="Novo aviso..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #ccc; outline:none;">
+            <button class="btn btn-search" id="btnEnviarAviso">Postar</button>
+        </div>
+    </aside>
+
+    <main class="container">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+            <i class="fas fa-desktop" style="font-size: 2rem; color: var(--primary);"></i>
+            <h2>Equipamentos e Patrimônios</h2>
+        </div>
+        
+        <div class="grid-patrimonios" id="gridPatrimonios"></div>
+    </main>
+
+    <!-- MODAL 1: LISTA DE CASOS -->
+    <div id="modalListaCasos" class="popup">
+        <div class="popup-content large">
+            <span class="fechar" onclick="fecharModal('modalListaCasos')">&times;</span>
+            <h2 id="tituloPatrimonio">Casos</h2>
+            
+            <!-- DIV DE PROTEÇÃO PARA TABELA RESPONSIVA -->
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Solicitante</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaCasos"></tbody>
+                </table>
+            </div>
+            
+            <button class="btn btn-create btn-float-bottom" onclick="abrirNovoCasoPeloPatrimonio()">
+                <i class="fas fa-plus"></i> Novo Caso
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ABERTURA -->
+    <div id="modalCriarCaso" class="popup">
+        <div class="popup-content">
+            <span class="fechar" onclick="fecharModal('modalCriarCaso')">&times;</span>
+            <h2>Abertura de Novo Chamado</h2>
+            <form id="formNovoCaso">
+                <label>Nº Patrimônio:</label>
+                <input type="text" id="formPat" required>
+                <label>Nome do Solicitante:</label>
+                <input type="text" id="formNome" required>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>Secretaria:</label>
+                        <input type="text" id="formSec">
+                    </div>
+                    <div class="form-col">
+                        <label>Departamento:</label>
+                        <input type="text" id="formDepto">
+                    </div>
+                </div>
+
+                <label>Ramal:</label>
+                <input type="text" id="formRamal">
+                <label>Descrição do Problema:</label>
+                <textarea id="formProb" rows="3" required></textarea>
+                <button type="submit" class="btn btn-create btn-block">Abrir Chamado</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: TICKETS -->
+    <div id="modalTickets" class="popup">
+        <div class="popup-content large">
+            <span class="fechar" onclick="fecharModal('modalTickets')">&times;</span>
+            <h2 id="tituloCasoTickets">Histórico</h2>
+            <div id="infoCaso" class="info-box"></div>
+            <div class="ticket-area" id="ticketArea"></div>
+            
+            <div id="areaInteracao" class="interaction-bar">
+                <input type="text" id="inputTicket" placeholder="Nota técnica...">
+                <button class="btn btn-search" id="btnEnviarTicket">Enviar</button>
+                <button class="btn btn-logout" id="btnFinalizarCaso" style="background: var(--success); color: white;">Finalizar</button>
+            </div>
+
+            <div id="areaImpressao" style="display:none; justify-content: flex-end; margin-top: 15px;">
+                <button class="btn btn-print" onclick="imprimirChamado()">
+                    <i class="fas fa-file-pdf"></i> Imprimir Relatório
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>

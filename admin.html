@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Administrativo - SI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo"><h3>Controle de Casos - SI</h3></div>
+        
+        <div class="admin-profile">
+            <i class="fas fa-user-shield"></i>
+            <h4><span id="adm-name">Administrador</span></h4>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" onclick="showSection('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</button>
+            <button class="nav-btn" onclick="showSection('equipe', this)"><i class="fas fa-users"></i> Gerenciar Equipe</button>
+            <button class="nav-btn" onclick="showSection('manutencao', this)"><i class="fas fa-database"></i> Manutenção</button>
+            <button class="nav-btn btn-logout" onclick="window.location.href='/api/logout'"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <!-- SEÇÃO DASHBOARD -->
+        <section id="dashboard" class="section active">
+<div class="stats">
+    <div class="card"><h3>Chamados Abertos</h3><p id="stat-abertos">0</p></div>
+    <div class="card"><h3>Chamados Fechados</h3><p id="stat-fechados">0</p></div>
+    <div class="card"><h3>Patrimônios</h3><p id="stat-pats">0</p></div>
+</div>
+
+            <div class="panel">
+                <h3>Últimas Atividades do Sistema</h3>
+                <table id="tabela-logs">
+                    <thead><tr><th>Data/Hora</th><th>Usuário</th><th>Ação Realizada</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO EQUIPE -->
+        <section id="equipe" class="section">
+            <div class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Controle de Técnicos</h2>
+                    <button class="btn btn-blue" onclick="openModal('modalUser')">+ Novo Técnico</button>
+                </div>
+                <table id="tabela-users">
+                    <thead><tr><th>ID</th><th>Usuário</th><th>Tipo</th><th>Ações</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SEÇÃO MANUTENÇÃO -->
+        <section id="manutencao" class="section">
+            <div class="panel">
+                <h2>Base de Dados de Patrimônios</h2>
+                <div style="margin: 15px 0;">
+                    <input type="text" id="filtroPat" placeholder="Filtrar por Nº Patrimônio..." onkeyup="renderManutencao()" style="padding: 10px; width: 300px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                </div>
+                <table id="tabela-pats">
+                    <thead><tr><th>Nº Patrimônio</th><th>Qtd Casos</th><th>Ações Administrativas</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL NOVO TÉCNICO -->
+    <div id="modalUser" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalUser')">&times;</span>
+            <h3>Cadastrar Novo Técnico</h3><br>
+            <input type="text" id="addUsername" placeholder="Usuário (ex: joao.ti)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="password" id="addPassword" placeholder="Senha" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px;">
+            
+            <button class="btn btn-blue" style="width: 100%; justify-content: center; height: 45px;" onclick="addNewUser()">Criar Acesso de Técnico</button>
+        </div>
+    </div>
+
+    <!-- MODAL CASOS -->
+    <div id="modalCasos" class="modal">
+        <div class="modal-content fullscreen">
+            <span class="close" onclick="closeModal('modalCasos')">&times;</span>
+            <h2 id="modalCasosTitulo">Lista de Casos</h2>
+            <table id="tabela-casos-admin">
+                <thead><tr><th>ID</th><th>Solicitante</th><th>Status</th><th>Problema</th><th>Histórico</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL TICKETS -->
+    <div id="modalTickets" class="modal">
+        <div class="modal-content" style="width: 600px;">
+            <span class="close" onclick="closeModal('modalTickets')">&times;</span>
+            <h3>Histórico de Tickets</h3><br>
+            <div id="chat-tickets-admin" style="max-height: 450px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>
